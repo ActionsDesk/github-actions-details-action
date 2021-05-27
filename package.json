@@ -1,0 +1,45 @@
+{
+  "name": "github-actions-details-action",
+  "version": "1.0.0",
+  "description": "Collect and comment with details about GitHub Actions on PRs",
+  "keywords": [
+    "github-actions",
+    "automation"
+  ],
+  "author": {
+    "name": "GitHub Professional Services",
+    "email": "services@github.com",
+    "url": "https://services.github.com"
+  },
+  "contributors": [
+    {
+      "name": "Stefan Stölzle",
+      "email": "stoe@github.com",
+      "url": "https://github.com/stoe"
+    }
+  ],
+  "license": "MIT",
+  "repository": "github:ActionsDesk/github-actions-details-action",
+  "engines": {
+    "node": ">=14",
+    "npm": ">=7"
+  },
+  "main": "index.mjs",
+  "scripts": {
+    "build": "npx @vercel/ncc build index.mjs --out dist --license licenses.txt --quiet --minify",
+    "watch": "npx @vercel/ncc build index.mjs --out dist --license licenses.txt --quiet --minify --watch",
+    "pretest": "npx eslint-config-prettier .eslintrc.json",
+    "test": "eslint ."
+  },
+  "dependencies": {
+    "@actions/core": "^1.3.0",
+    "@actions/github": "^5.0.0"
+  },
+  "devDependencies": {
+    "@github/prettier-config": "^0.0.4",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-github": "^4.1.3"
+  },
+  "prettier": "@github/prettier-config"
+}
