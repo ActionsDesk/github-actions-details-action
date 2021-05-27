@@ -1,0 +1,22 @@
+name: 'github-actions-details-action'
+description: 'Collect and comment with details about GitHub Actions on PRs'
+
+inputs:
+  search_token:
+    description: 'GitHub Personal Access Token (PAT)'
+    required: true
+  token:
+    description: 'GITHUB_TOKEN'
+    required: true
+    default: ${{ github.token }}
+  allow_list_path:
+    description: 'Path to the GitHub Actions allow list YML within the repository'
+    default: 'github-actions-allow-list.yml'
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+
+branding:
+  icon: 'zoom-in'
+  color: 'green'
