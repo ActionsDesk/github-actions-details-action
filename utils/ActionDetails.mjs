@@ -142,7 +142,7 @@ Please make sure this is intended by providing a business reason via comment bel
 
       try {
         // will throw if it's not a GitHub Action
-        const res = await this.search.request('GET /repos/{owner}/{repo}/contents/{path}', {
+        await this.search.request('GET /repos/{owner}/{repo}/contents/{path}', {
           owner,
           repo,
           path: 'action.yml'
@@ -165,7 +165,7 @@ Please make sure this is intended by providing a business reason via comment bel
           languages: result.node.languages.nodes.map(item => item.name),
 
           // flatten license
-          license: result.node.license.name,
+          license: result.node.license ? result.node.license.name : 'none',
 
           // flatten topics array
           topics: result.node.topics.nodes.map(item => item.topic.name),
