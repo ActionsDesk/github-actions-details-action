@@ -32,7 +32,7 @@ jobs:
           node-version: 14.x
 
       - name: Add GitHub Action Details from PR
-        uses: ActionsDesk/github-actions-details-action@v1.0.0
+        uses: ActionsDesk/github-actions-details-action@v1.0.1
         with:
           search_token: ${{ secrets.SEARCH_TOKEN }}
           # same as defined under `on.pull_requests.paths`
