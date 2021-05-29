@@ -302,7 +302,7 @@ ${
       ...this.context.repo,
       pull_number,
       commit_id,
-      event: 'COMMENT',
+      event: body.indexOf(':stop_sign:') > -1 ? 'REQUEST_CHANGES' : 'COMMENT',
       comments: [
         {
           path,
