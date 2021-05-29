@@ -24,6 +24,11 @@ class ActionDetails {
    */
 
   /**
+   * @typedef License
+   * @property {string} name
+   */
+
+  /**
    * @typedef Owner
    * @property {string} login
    * @property {"User"|"Organization"} type
@@ -39,7 +44,7 @@ class ActionDetails {
    * @property {string[]|null} topics
    * @property {string[]|null} languages
    * @property {Release} release
-   * @property {string} license
+   * @property {License|null} license
    * @property {boolean} isSecurityPolicyEnabled
    * @property {string} securityPolicyUrl
    * @property {number} vulnerabilityAlerts
