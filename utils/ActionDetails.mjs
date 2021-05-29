@@ -26,7 +26,7 @@ class ActionDetails {
   /**
    * @typedef Owner
    * @property {string} login
-   * @property {"User"|"Orgganization"} type
+   * @property {"User"|"Organization"} type
    * @property {string} url
    */
 
