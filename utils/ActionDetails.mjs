@@ -112,14 +112,14 @@ class ActionDetails {
       if (file.filename === allowList) {
         const lines = file.patch.split('\n')
 
-        for (const line of lines) {
+        lines.forEach((line, i) => {
           if (line.indexOf('---') === -1 && line.indexOf('+  - ') === 0) {
             const slice = line.slice(1).trim()
             const [_, o, r, v] = actionRegEx.exec(slice)
 
-            actions.push({owner: o, repo: r, version: v && v.slice(1)})
+            actions.push({owner: o, repo: r, version: v && v.slice(1), line: i})
           }
-        }
+        })
       }
     }
 
@@ -134,14 +134,17 @@ class ActionDetails {
     const actions = await this.extractActionFromConfig()
 
     for await (const action of actions) {
-      const {owner, repo, version} = action
+      const {owner, repo, version, line} = action
 
       if (repo === '*') {
-        this.postComment(`## :warning: Wildcard GitHub Action detected \`${owner}/${repo}\`
+        this.postReviewComment(
+          `## :warning: Wildcard GitHub Action detected \`${owner}/${repo}\`
 
 **This will add all GitHub Action repositories owned by https://github.com/${owner} to the allow list!**
 
-Please make sure this is intended by providing a business reason via comment below!`)
+Please make sure this is intended by providing a business reason via comment below!`,
+          line
+        )
         continue
       }
 
@@ -180,19 +183,23 @@ Please make sure this is intended by providing a business reason via comment bel
         }
 
         const md = this.getMarkdown(details)
-        this.postComment(md)
+        this.postReviewComment(md, line)
       } catch (error) {
-        this.postComment(`## :stop_sign: \`${owner}/${repo}\` is not a known GitHub Action
+        this.postReviewComment(
+          `## :stop_sign: \`${owner}/${repo}\` is not a known GitHub Action
 
 :link: https://github.com/${owner}/${repo}
 
-Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`)
+Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
+          line
+        )
       }
     }
   }
 
   /**
    * @readonly
+   * @param {Details} details
    * @returns {string}
    */
   getMarkdown(details) {
@@ -275,14 +282,34 @@ ${
    * @async
    * @readonly
    * @param {string} body
+   * @param {number} line
    */
-  async postComment(body) {
-    const {octokit, context} = this
+  async postReviewComment(body, line) {
+    const {
+      octokit,
+      allowList: path,
+      context: {
+        payload: {
+          number: pull_number,
+          pull_request: {
+            head: {sha: commit_id}
+          }
+        }
+      }
+    } = this
 
-    await octokit.request('POST /repos/{owner}/{repo}/issues/{issue_number}/comments', {
+    await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
       ...context.repo,
-      issue_number: context.payload.number,
-      body
+      pull_number,
+      commit_id,
+      event: 'COMMENT',
+      comments: [
+        {
+          path,
+          body,
+          line
+        }
+      ]
     })
   }
 }
