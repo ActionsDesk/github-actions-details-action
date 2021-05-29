@@ -299,7 +299,7 @@ ${
     } = this
 
     await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
-      ...context.repo,
+      ...this.context.repo,
       pull_number,
       commit_id,
       event: 'COMMENT',
