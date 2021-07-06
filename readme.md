@@ -2,7 +2,7 @@
 
 > Collect and comment with details about GitHub Actions on PRs
 
-[![Test](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/test.yml/badge.svg)](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/test.yml) [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![test](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/test.yml/badge.svg)](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/test.yml) [![codeql](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/codeql.yml/badge.svg)](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/codeql.yml) [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 ## Usage
 
