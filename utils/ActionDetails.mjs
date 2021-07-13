@@ -88,8 +88,9 @@ class ActionDetails {
       context: {
         payload: {
           pull_request: {
-            base: {sha: base},
-            head: {sha: head}
+            base: {ref: base},
+            head: {ref: head},
+            number: pull_number
           }
         }
       }
@@ -98,11 +99,10 @@ class ActionDetails {
     // get the `git diff`
     const {
       data: {files}
-    } = await octokit.rest.repos.compareCommits({
+    } = await octokit.rest.repos.compareCommitsWithBasehead({
       owner,
       repo,
-      base,
-      head
+      basehead: `${base}...${head}`
     })
 
     const actions = []
@@ -117,7 +117,7 @@ class ActionDetails {
             const slice = line.slice(1).trim()
             const [_, o, r, v] = actionRegEx.exec(slice)
 
-            actions.push({owner: o, repo: r, version: v && v.slice(1), line: i})
+            actions.push({owner: o, repo: r, version: v && v.slice(1), position: i})
           }
         })
       }
@@ -134,7 +134,7 @@ class ActionDetails {
     const actions = await this.extractActionFromConfig()
 
     for await (const action of actions) {
-      const {owner, repo, version, line} = action
+      const {owner, repo, version, position} = action
 
       if (repo === '*') {
         this.postReviewComment(
@@ -143,14 +143,14 @@ class ActionDetails {
 **This will add all GitHub Action repositories owned by https://github.com/${owner} to the allow list!**
 
 Please make sure this is intended by providing a business reason via comment below!`,
-          line
+          position
         )
         continue
       }
 
       try {
         // will throw if it's not a GitHub Action
-        await this.search.request('GET /repos/{owner}/{repo}/contents/{path}', {
+        await this.search.rest.repos.getContent({
           owner,
           repo,
           path: 'action.yml'
@@ -183,7 +183,7 @@ Please make sure this is intended by providing a business reason via comment bel
         }
 
         const md = this.getMarkdown(details)
-        this.postReviewComment(md, line)
+        this.postReviewComment(md, position)
       } catch (error) {
         this.postReviewComment(
           `## :stop_sign: \`${owner}/${repo}\` is not a known GitHub Action
@@ -191,7 +191,7 @@ Please make sure this is intended by providing a business reason via comment bel
 :link: https://github.com/${owner}/${repo}
 
 Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
-          line
+          position
         )
       }
     }
@@ -282,9 +282,9 @@ ${
    * @async
    * @readonly
    * @param {string} body
-   * @param {number} line
+   * @param {number} position
    */
-  async postReviewComment(body, line) {
+  async postReviewComment(body, position) {
     const {
       octokit,
       allowList: path,
@@ -298,19 +298,28 @@ ${
       }
     } = this
 
-    await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
-      ...this.context.repo,
-      pull_number,
-      commit_id,
-      event: body.indexOf(':stop_sign:') > -1 ? 'REQUEST_CHANGES' : 'COMMENT',
-      comments: [
-        {
-          path,
-          body,
-          line
-        }
-      ]
-    })
+    try {
+      await octokit.rest.pulls.createReview({
+        ...this.context.repo,
+        pull_number,
+        commit_id,
+        event: body.indexOf(':stop_sign:') > -1 ? 'REQUEST_CHANGES' : 'COMMENT',
+        comments: [
+          {
+            path,
+            body,
+            position
+          }
+        ]
+      })
+    } catch (error) {
+      // add a regular comment if we can't add a review comment
+      await octokit.rest.issues.createComment({
+        ...this.context.repo,
+        issue_number: pull_number,
+        body
+      })
+    }
   }
 }
 
