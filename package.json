@@ -1,6 +1,6 @@
 {
   "name": "github-actions-details-action",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Collect and comment with details about GitHub Actions on PRs",
   "keywords": [
     "github-actions",
@@ -39,7 +39,7 @@
     "@github/prettier-config": "^0.0.4",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-github": "^4.1.5"
+    "eslint-plugin-github": "^4.2.0"
   },
   "prettier": "@github/prettier-config"
 }
