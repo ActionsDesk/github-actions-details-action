@@ -29,7 +29,7 @@
     "build": "npx @vercel/ncc build index.mjs --out dist --license licenses.txt --quiet --minify",
     "watch": "npx @vercel/ncc build index.mjs --out dist --license licenses.txt --quiet --minify --watch",
     "pretest": "npx eslint-config-prettier .eslintrc.json",
-    "test": "eslint ."
+    "test": "eslint *.mjs"
   },
   "dependencies": {
     "@actions/core": "^1.6.0",

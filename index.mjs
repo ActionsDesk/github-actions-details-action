@@ -1,8 +1,7 @@
-import {join, parse} from 'path'
 import {getInput, setFailed} from '@actions/core'
-import {context} from '@actions/github'
-
+import {join, parse} from 'path'
 import ActionDetails from './utils/ActionDetails.mjs'
+import {context} from '@actions/github'
 
 // action
 ;(async () => {
@@ -24,7 +23,6 @@ import ActionDetails from './utils/ActionDetails.mjs'
     await ad.getDetails()
     // await ad.postComment()
   } catch (error) {
-    console.error(error)
     setFailed(error.message)
   }
 })()
