@@ -28,6 +28,7 @@
   "scripts": {
     "build": "npx @vercel/ncc build index.mjs --out dist --license licenses.txt --quiet --minify",
     "watch": "npx @vercel/ncc build index.mjs --out dist --license licenses.txt --quiet --minify --watch",
+    "prepare": "husky install ./.github/husky",
     "pretest": "npx eslint-config-prettier .eslintrc.json",
     "test": "eslint *.mjs"
   },
@@ -39,7 +40,14 @@
     "@github/prettier-config": "^0.0.4",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-github": "^4.3.7"
+    "eslint-plugin-github": "^4.3.7",
+    "husky": "^8.0.1",
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "./.github/husky/pre-commit",
+      "pre-push": "./.github/husky/pre-push"
+    }
   },
   "prettier": "@github/prettier-config"
 }
