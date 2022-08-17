@@ -21,8 +21,8 @@
   "license": "MIT",
   "repository": "github:ActionsDesk/github-actions-details-action",
   "engines": {
-    "node": ">=14",
-    "npm": ">=7"
+    "node": ">=16",
+    "npm": ">=8"
   },
   "main": "index.mjs",
   "scripts": {
