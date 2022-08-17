@@ -28,6 +28,7 @@
   "scripts": {
     "build": "npx @vercel/ncc build index.mjs --out dist --license licenses.txt --quiet --minify",
     "watch": "npx @vercel/ncc build index.mjs --out dist --license licenses.txt --quiet --minify --watch",
+    "prebuild": "rimraf dist",
     "prepare": "husky install ./.github/husky",
     "pretest": "npx eslint-config-prettier .eslintrc.json",
     "test": "eslint *.mjs"
@@ -42,6 +43,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-github": "^4.3.7",
     "husky": "^8.0.1",
+    "rimraf": "^3.0.2"
   },
   "husky": {
     "hooks": {
