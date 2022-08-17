@@ -32,14 +32,14 @@
     "test": "eslint *.mjs"
   },
   "dependencies": {
-    "@actions/core": "^1.9.0",
+    "@actions/core": "^1.9.1",
     "@actions/github": "^5.0.3"
   },
   "devDependencies": {
     "@github/prettier-config": "^0.0.4",
-    "eslint": "^8.18.0",
+    "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-github": "^4.3.6"
+    "eslint-plugin-github": "^4.3.7"
   },
   "prettier": "@github/prettier-config"
 }
