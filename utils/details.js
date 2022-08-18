@@ -228,7 +228,7 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
       versionLink += `tree/${actionRequestedVersion}`
     }
 
-    return `## Datails about [\`${action}\`](${url}) (:star: ${stars})
+    return `## Details about [\`${action}\`](${url}) (:star: ${stars})
 
 > ${description}
 
