@@ -89,8 +89,7 @@ class ActionDetails {
         payload: {
           pull_request: {
             base: {ref: base},
-            head: {ref: head},
-            number: pull_number
+            head: {ref: head}
           }
         }
       }
@@ -106,20 +105,22 @@ class ActionDetails {
     })
 
     const actions = []
-    const actionRegEx = /- ([A-Z0-9-]+)\/([A-Z0-9-_]+|\*)(\@.*){0,1}/i
+    const actionRegEx = /- ([A-Z0-9-]+)\/([A-Z0-9-_]+|\*)(@.*){0,1}/i
 
     for (const file of files) {
       if (file.filename === allowList) {
         const lines = file.patch.split('\n')
 
-        lines.forEach((line, i) => {
+        for (const [i, line] of lines.entries()) {
           if (line.indexOf('---') === -1 && line.indexOf('+  - ') === 0) {
             const slice = line.slice(1).trim()
+
+            // eslint-disable-next-line no-unused-vars
             const [_, o, r, v] = actionRegEx.exec(slice)
 
             actions.push({owner: o, repo: r, version: v && v.slice(1), position: i})
           }
-        })
+        }
       }
     }
 
@@ -227,7 +228,7 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
       versionLink += `tree/${actionRequestedVersion}`
     }
 
-    return `## Datails about [\`${action}\`](${url}) (:star: ${stars})
+    return `## Details about [\`${action}\`](${url}) (:star: ${stars})
 
 > ${description}
 

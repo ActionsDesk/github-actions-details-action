@@ -1,6 +1,6 @@
 import {getInput, setFailed} from '@actions/core'
 import {join, parse} from 'path'
-import ActionDetails from './utils/ActionDetails.mjs'
+import ActionDetails from './utils/details'
 import {context} from '@actions/github'
 
 // action
