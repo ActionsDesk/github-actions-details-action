@@ -89,19 +89,19 @@ class ActionDetails {
         payload: {
           pull_request: {
             base: {ref: base},
-            head: {ref: head}
-          }
-        }
-      }
+            head: {ref: head},
+          },
+        },
+      },
     } = this
 
     // get the `git diff`
     const {
-      data: {files}
+      data: {files},
     } = await octokit.rest.repos.compareCommitsWithBasehead({
       owner,
       repo,
-      basehead: `${base}...${head}`
+      basehead: `${base}...${head}`,
     })
 
     const actions = []
@@ -144,7 +144,7 @@ class ActionDetails {
 **This will add all GitHub Action repositories owned by https://github.com/${owner} to the allow list!**
 
 Please make sure this is intended by providing a business reason via comment below!`,
-          position
+          position,
         )
         continue
       }
@@ -154,15 +154,15 @@ Please make sure this is intended by providing a business reason via comment bel
         await this.search.rest.repos.getContent({
           owner,
           repo,
-          path: 'action.yml'
+          path: 'action.yml',
         })
 
         const {
           search: {
-            edges: [result]
-          }
+            edges: [result],
+          },
         } = await this.search.graphql(searchQuery, {
-          search: `repo:${owner}/${repo} fork:false`
+          search: `repo:${owner}/${repo} fork:false`,
         })
 
         const details = {
@@ -180,7 +180,7 @@ Please make sure this is intended by providing a business reason via comment bel
           topics: result.node.topics.nodes.map(item => item.topic.name),
 
           // flatten vulnerability alerts count
-          vulnerabilityAlerts: result.node.vulnerabilityAlerts.totalCount
+          vulnerabilityAlerts: result.node.vulnerabilityAlerts.totalCount,
         }
 
         const md = this.getMarkdown(details)
@@ -192,7 +192,7 @@ Please make sure this is intended by providing a business reason via comment bel
 :link: https://github.com/${owner}/${repo}
 
 Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
-          position
+          position,
         )
       }
     }
@@ -218,7 +218,7 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
       securityPolicyUrl,
       vulnerabilityAlerts,
       owner,
-      stars
+      stars,
     } = details
 
     let versionLink = ''
@@ -293,10 +293,10 @@ ${
         payload: {
           number: pull_number,
           pull_request: {
-            head: {sha: commit_id}
-          }
-        }
-      }
+            head: {sha: commit_id},
+          },
+        },
+      },
     } = this
 
     try {
@@ -309,16 +309,16 @@ ${
           {
             path,
             body,
-            position
-          }
-        ]
+            position,
+          },
+        ],
       })
     } catch (error) {
       // add a regular comment if we can't add a review comment
       await octokit.rest.issues.createComment({
         ...this.context.repo,
         issue_number: pull_number,
-        body
+        body,
       })
     }
   }
