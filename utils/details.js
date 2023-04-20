@@ -260,6 +260,11 @@ ${
 #### :information_source: Additional Information
 
 - Owner: [@${owner.login}](${owner.url}) (${owner.type})${
+      owner.type === 'Organization'
+        ? `
+- Verified: ${owner.isVerified === true ? ':white_check_mark:' : ':x:'}`
+        : ''
+    }${
       homepage
         ? `
 - Homepage: ${homepage}`
@@ -369,6 +374,9 @@ const searchQuery = `query ($search: String!) {
             type: __typename
             login
             url
+            ... on Organization {
+              isVerified
+            }
           }
           stars: stargazerCount
         }
