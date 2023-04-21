@@ -262,7 +262,7 @@ ${
 - Owner: [@${owner.login}](${owner.url}) (${owner.type})${
       owner.type === 'Organization'
         ? `
-- Verified: ${owner.isVerified === true ? ':white_check_mark:' : ':x:'}`
+- Organization Verified: ${owner.isVerified === true ? ':white_check_mark:' : ':x:'}`
         : ''
     }${
       homepage
