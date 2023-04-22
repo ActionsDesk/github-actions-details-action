@@ -1,0 +1,29 @@
+changelog:
+  exclude: {}
+  categories:
+    - title: 'Features 🚀'
+      labels:
+        - 'enhancement'
+
+    - title: 'Bug Fixes 🐛'
+      labels:
+        - 'bug'
+
+    - title: 'Dependency Updates 🆙'
+      labels:
+        - 'dependency :robot:'
+        - 'dependency 🤖'
+        - 'github-action :robot:'
+        - 'github-action 🤖'
+
+    - title: 'Changes 📦'
+      labels:
+        - '*'
+      exclude:
+        labels:
+          - 'enhancement'
+          - 'bug'
+          - 'dependency :robot:'
+          - 'dependency 🤖'
+          - 'github-action :robot:'
+          - 'github-action 🤖'
