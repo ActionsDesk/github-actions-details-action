@@ -3,9 +3,11 @@ import {getOctokit} from '@actions/github'
 class ActionDetails {
   /**
    * @typedef Action
-   * @property {string} owner
-   * @property {string} repo
-   * @property {string} version
+   * @property {string}   owner
+   * @property {string}   repo
+   * @property {string}   version
+   * @property {number}   position
+   * @property {registry} [registry=undefined]
    */
 
   /**
@@ -105,7 +107,9 @@ class ActionDetails {
     })
 
     const actions = []
-    const actionRegEx = /- ([A-Z0-9-]+)\/([A-Z0-9-_]+|\*)(@.*){0,1}/i
+
+    const actionRegEx = /- ([a-z0-9-]+)\/([a-z0-9-_]+|\*)(@.*){0,1}/i
+    const dockerRegEx = /- docker:\/\/([a-z0-9-.]+)\/?(([a-z0-9_-]\/?)+)(:(.*)|@([a-z0-9]+:[a-z0-9]+))?/
 
     for (const file of files) {
       if (file.filename === allowList) {
@@ -115,8 +119,33 @@ class ActionDetails {
           if (line.indexOf('---') === -1 && line.indexOf('+  - ') === 0) {
             const slice = line.slice(1).trim()
 
-            // eslint-disable-next-line no-unused-vars
-            const [_, o, r, v] = actionRegEx.exec(slice)
+            if (slice.indexOf('docker://') > -1) {
+              const match = dockerRegEx.exec(slice)
+
+              if (!match) {
+                actions.push({
+                  owner: 'docker://',
+                  repo: null,
+                  version: null,
+                  position: i,
+                  registry: slice.slice(11),
+                })
+                continue
+              }
+
+              const [, dRegistry, dRepo, , dVersion] = match
+
+              actions.push({
+                owner: 'docker://',
+                repo: dRepo,
+                version: dVersion && dVersion.slice(1),
+                position: i,
+                registry: dRegistry,
+              })
+              continue
+            }
+
+            const [, o, r, v] = actionRegEx.exec(slice)
 
             actions.push({owner: o, repo: r, version: v && v.slice(1), position: i})
           }
@@ -135,7 +164,22 @@ class ActionDetails {
     const actions = await this.extractActionFromConfig()
 
     for await (const action of actions) {
-      const {owner, repo, version, position} = action
+      const {owner, repo, version, position, registry} = action
+
+      if (registry) {
+        this.postReviewComment(
+          `## :whale: Docker container image detected
+
+**This will add the Docker container image to the allow list!**
+
+${repo ? `:link: https://${registry}/${repo}${version ? `/${version}` : ''}` : `\`${registry}\``}
+
+Please make sure this is intended by providing a business reason via comment below!
+`,
+          position,
+        )
+        continue
+      }
 
       if (repo === '*') {
         this.postReviewComment(
