@@ -109,7 +109,7 @@ class ActionDetails {
     const actions = []
 
     const actionRegEx = /- ([a-z0-9-]+)\/([a-z0-9-_]+|\*)(@.*){0,1}/i
-    const dockerRegEx = /- docker:\/\/([a-z0-9-.]+)\/?(([a-z0-9_-]\/?)+)(:(.*)|@([a-z0-9]+:[a-z0-9]+))?/
+    const dockerRegEx = /- docker:\/\/([a-z0-9-.]+)\/?(([a-z0-9_-]\/?)+)(:(.*)|@([a-z0-9]+:[a-z0-9]+))?/i
 
     for (const file of files) {
       if (file.filename === allowList) {
