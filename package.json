@@ -21,13 +21,13 @@
   "license": "MIT",
   "repository": "github:ActionsDesk/github-actions-details-action",
   "engines": {
-    "node": ">=16",
-    "npm": ">=8"
+    "node": ">=20",
+    "npm": ">=10"
   },
   "main": "action.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "npx @vercel/ncc build action.js -o dist -q -m -s --license licenses.txt",
+    "build": "npx @vercel/ncc build action.js --out dist --license licenses.txt --quiet --minify",
     "format": "npx prettier --config-precedence prefer-file --write . && eslint . --fix",
     "prepare": "husky install ./.github/husky",
     "pretest": "npx eslint-config-prettier .eslintrc.json",
@@ -36,16 +36,16 @@
   },
   "dependencies": {
     "@actions/core": "^1.10.1",
-    "@actions/github": "^5.1.1"
+    "@actions/github": "^6.0.0"
   },
   "devDependencies": {
     "@github/prettier-config": "^0.0.6",
-    "@vercel/ncc": "^0.36.1",
-    "eslint": "^8.45.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-github": "^4.9.2",
-    "husky": "^8.0.3",
-    "rimraf": "^5.0.1"
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-github": "^4.10.1",
+    "husky": "^9.0.11",
+    "rimraf": "^5.0.5"
   },
   "husky": {
     "hooks": {
