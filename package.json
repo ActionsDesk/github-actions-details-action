@@ -1,6 +1,7 @@
 {
   "name": "github-actions-details-action",
   "version": "2.2.0",
+  "type": "module",
   "description": "Collect and comment with details about GitHub Actions on PRs",
   "keywords": [
     "github-actions",
@@ -21,8 +22,8 @@
   "license": "MIT",
   "repository": "github:ActionsDesk/github-actions-details-action",
   "engines": {
-    "node": ">=16",
-    "npm": ">=8"
+    "node": ">=20",
+    "npm": ">=10"
   },
   "main": "action.js",
   "scripts": {
