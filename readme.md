@@ -2,7 +2,7 @@
 
 > Collect and comment with details about GitHub Actions on PRs
 
-[![Test](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/test.yml/badge.svg)](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/test.yml) [![CodeQL](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/github-code-scanning/codeql) [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![Test](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/test.yml/badge.svg)](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/test.yml) [![CodeQL](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/codeql.yml/badge.svg)](https://github.com/ActionsDesk/github-actions-details-action/actions/workflows/codeql.yml) [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 ## Usage
 
@@ -25,15 +25,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
       - name: Setup node
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
-          node-version: 14.x
+          node-version: 20
+          cache: 'npm'
 
       - name: Add GitHub Action Details from PR
-        uses: ActionsDesk/github-actions-details-action@v1.2.1
+        uses: ActionsDesk/github-actions-details-action@c49711d95dd1d7b855baa08ecac42bc9b4528a27
         with:
           search_token: ${{ secrets.SEARCH_TOKEN }}
           # same as defined under `on.pull_requests.paths`
