@@ -98,9 +98,10 @@ class ActionDetails {
     } = this
 
     // get the `git diff`
+    // https://docs.github.com/rest/commits/commits#compare-two-commits
     const {
       data: {files},
-    } = await octokit.rest.repos.compareCommitsWithBasehead({
+    } = await octokit.request('GET /repos/{owner}/{repo}/compare/{basehead}', {
       owner,
       repo,
       basehead: `${base}...${head}`,
@@ -349,7 +350,8 @@ ${
     } = this
 
     try {
-      await octokit.rest.pulls.createReview({
+      // https://docs.github.com/rest/pulls/reviews#create-a-review-for-a-pull-request
+      await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
         ...this.context.repo,
         pull_number,
         commit_id,
@@ -364,10 +366,14 @@ ${
       })
     } catch (error) {
       // add a regular comment if we can't add a review comment
-      await octokit.rest.issues.createComment({
+      // https://docs.github.com/rest/pulls/comments#create-a-review-comment-for-a-pull-request
+      await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/comments', {
         ...this.context.repo,
-        issue_number: pull_number,
+        pull_number,
         body,
+        commit_id,
+        path,
+        subject_type: 'file',
       })
     }
   }
