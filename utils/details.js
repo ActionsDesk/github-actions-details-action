@@ -373,6 +373,7 @@ ${
         body,
         commit_id,
         path,
+        subject_type: 'file',
       })
     }
   }

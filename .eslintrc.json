@@ -13,7 +13,7 @@
     "camelcase": [
       "error",
       {
-        "allow": ["commit_id", "issue_number", "pull_number"]
+        "allow": ["commit_id", "issue_number", "pull_number", "subject_type"]
       }
     ],
     "no-console": "error"
