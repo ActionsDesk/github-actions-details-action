@@ -366,7 +366,7 @@ ${
       })
     } catch (error) {
       // add a regular comment if we can't add a review comment
-      //docs.github.com/rest/pulls/comments#create-a-review-comment-for-a-pull-request
+      // https://docs.github.com/rest/pulls/comments#create-a-review-comment-for-a-pull-request
       await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/comments', {
         ...this.context.repo,
         pull_number,
