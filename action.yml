@@ -12,6 +12,31 @@ inputs:
   allow_list_path:
     description: 'Path to the GitHub Actions allow list YML within the repository'
     default: 'github-actions-allow-list.yml'
+outputs:
+  isGitHubVerified:
+    description: 'Is the GitHub Actions organization verified'
+  isSecurityPolicyEnabled:
+    description: 'Is the GitHub Actions organization security policy enabled'
+  stars:
+    description: 'Number of stars for the GitHub Actions'
+  knownVulnerabilities:
+    description: 'Number of known vulnerabilities for the GitHub Actions'
+  license:
+    description: 'License for the GitHub Actions'
+  latestRelease:
+    description: 'Latest release for the GitHub Actions'
+  topics:
+    description: 'Topics for the GitHub Actions'
+  languages:
+    description: 'Languages for the GitHub Actions'
+  homepage:
+    description: 'Homepage for the GitHub Actions'
+  description:
+    description: 'Description for the GitHub Actions'
+  url:
+    description: 'URL for the GitHub Actions'
+  actionRequestedVersion:
+    description: 'Requested version for the GitHub Actions'
 
 runs:
   using: 'node20'

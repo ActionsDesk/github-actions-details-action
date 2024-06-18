@@ -1,4 +1,5 @@
 import {getOctokit} from '@actions/github'
+import {setOutput} from '@actions/core'
 
 class ActionDetails {
   /**
@@ -228,6 +229,7 @@ Please make sure this is intended by providing a business reason via comment bel
           vulnerabilityAlerts: result.node.vulnerabilityAlerts.totalCount,
         }
 
+        this.addOutputs(details)
         const md = this.getMarkdown(details)
         this.postReviewComment(md, position)
       } catch (error) {
@@ -241,6 +243,53 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
         )
       }
     }
+  }
+
+  /**
+   * @readonly
+   * @param {Details} details
+   * @returns {void}
+   */
+  addOutputs(details) {
+    const {
+      actionRequestedVersion,
+      url,
+      description,
+      homepage,
+      topics,
+      languages,
+      release,
+      license,
+      isSecurityPolicyEnabled,
+      vulnerabilityAlerts,
+      owner,
+      stars,
+    } = details
+
+    const isGitHubVerified = owner.type === 'Organization' && owner.isVerified === true
+    setOutput('isGitHubVerified', isGitHubVerified)
+
+    setOutput('isSecurityPolicyEnabled', isSecurityPolicyEnabled)
+
+    setOutput('stars', stars)
+
+    setOutput('knownVulnerabilities', vulnerabilityAlerts)
+
+    setOutput('license', license)
+
+    setOutput('latestRelease', release.published)
+
+    setOutput('topics', topics.join(', '))
+
+    setOutput('languages', languages.join(', '))
+
+    setOutput('homepage', homepage)
+
+    setOutput('description', description)
+
+    setOutput('url', url)
+
+    setOutput('actionRequestedVersion', actionRequestedVersion)
   }
 
   /**
