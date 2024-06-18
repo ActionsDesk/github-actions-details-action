@@ -212,7 +212,7 @@ Please make sure this is intended by providing a business reason via comment bel
         })
 
         // Get the number of contributors
-        const contributors = await this.octokit.paginate("GET /repos/{owner}/{repo}/contributors", {
+        const contributors = await this.octokit.paginate('GET /repos/{owner}/{repo}/contributors', {
           owner,
           repo,
           per_page: 100,
@@ -235,7 +235,7 @@ Please make sure this is intended by providing a business reason via comment bel
           // flatten vulnerability alerts count
           vulnerabilityAlerts: result.node.vulnerabilityAlerts.totalCount,
 
-          contributors: contributors.length
+          contributors: contributors.length,
         }
 
         this.addOutputs(details)
