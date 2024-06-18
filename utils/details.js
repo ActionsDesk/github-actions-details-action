@@ -1,5 +1,5 @@
 import {getOctokit} from '@actions/github'
-import {setOuput, setOutput} from '@actions/core'
+import {setOutput} from '@actions/core'
 
 class ActionDetails {
   /**
@@ -252,7 +252,6 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
    */
   addOutputs(details) {
     const {
-      action,
       actionRequestedVersion,
       url,
       description,
@@ -267,30 +266,30 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
       stars,
     } = details
 
-    const isGitHubVerified = (owner.type === 'Organization' && owner.isVerified === true);
-    setOutput('isGitHubVerified', isGitHubVerified);
+    const isGitHubVerified = owner.type === 'Organization' && owner.isVerified === true
+    setOutput('isGitHubVerified', isGitHubVerified)
 
-    setOutput('isSecurityPolicyEnabled', isSecurityPolicyEnabled);
+    setOutput('isSecurityPolicyEnabled', isSecurityPolicyEnabled)
 
-    setOutput('stars', stars);
+    setOutput('stars', stars)
 
-    setOutput('knownVulnerabilities', vulnerabilityAlerts);
+    setOutput('knownVulnerabilities', vulnerabilityAlerts)
 
-    setOutput('license', license);
+    setOutput('license', license)
 
-    setOutput('latestRelease', release.published);
+    setOutput('latestRelease', release.published)
 
-    setOutput('topics', topics.join(', '));
+    setOutput('topics', topics.join(', '))
 
-    setOutput('languages', languages.join(', '));
+    setOutput('languages', languages.join(', '))
 
-    setOutput('homepage', homepage);
+    setOutput('homepage', homepage)
 
-    setOutput('description', description);
+    setOutput('description', description)
 
-    setOutput('url', url);
+    setOutput('url', url)
 
-    setOutput('actionRequestedVersion', actionRequestedVersion);
+    setOutput('actionRequestedVersion', actionRequestedVersion)
   }
 
   /**
