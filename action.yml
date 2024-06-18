@@ -37,6 +37,10 @@ outputs:
     description: 'URL for the GitHub Actions'
   actionRequestedVersion:
     description: 'Requested version for the GitHub Actions'
+  contributors:
+    description: 'Contributors for the GitHub Actions'
+  watchers:
+    description: 'Watchers for the GitHub Actions'
 
 runs:
   using: 'node20'

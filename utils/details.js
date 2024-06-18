@@ -211,6 +211,13 @@ Please make sure this is intended by providing a business reason via comment bel
           search: `repo:${owner}/${repo} fork:false`,
         })
 
+        // Get the number of contributors
+        const contributors = await this.octokit.paginate("GET /repos/{owner}/{repo}/contributors", {
+          owner,
+          repo,
+          per_page: 100,
+        })
+
         const details = {
           ...result.node,
 
@@ -227,6 +234,8 @@ Please make sure this is intended by providing a business reason via comment bel
 
           // flatten vulnerability alerts count
           vulnerabilityAlerts: result.node.vulnerabilityAlerts.totalCount,
+
+          contributors: contributors.length
         }
 
         this.addOutputs(details)
@@ -264,6 +273,8 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
       vulnerabilityAlerts,
       owner,
       stars,
+      contributors,
+      watchers,
     } = details
 
     const isGitHubVerified = owner.type === 'Organization' && owner.isVerified === true
@@ -290,6 +301,10 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
     setOutput('url', url)
 
     setOutput('actionRequestedVersion', actionRequestedVersion)
+
+    setOutput('contributors', contributors)
+
+    setOutput('watchers', watchers.totalCount)
   }
 
   /**
@@ -313,6 +328,8 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
       vulnerabilityAlerts,
       owner,
       stars,
+      contributors,
+      watchers,
     } = details
 
     let versionLink = ''
@@ -371,6 +388,8 @@ ${
         : `
 - Topics: ${topics.map(topic => `[\`${topic}\`](https://github.com/topics/${topic})`).join(', ')}`
     }
+- Watchers: ${watchers.totalCount}
+- Contributors: ${contributors}
 
 ---
 
@@ -478,6 +497,9 @@ const searchQuery = `query ($search: String!) {
             }
           }
           stars: stargazerCount
+          watchers: watchers {
+            totalCount
+          }
         }
       }
     }
