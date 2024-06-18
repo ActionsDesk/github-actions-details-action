@@ -13,7 +13,7 @@
     "camelcase": [
       "error",
       {
-        "allow": ["commit_id", "issue_number", "pull_number", "subject_type"]
+        "allow": ["commit_id", "issue_number", "pull_number", "subject_type", "per_page"]
       }
     ],
     "no-console": "error"
