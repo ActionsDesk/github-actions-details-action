@@ -261,6 +261,7 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
    */
   addOutputs(details) {
     const {
+      action,
       actionRequestedVersion,
       url,
       description,
@@ -276,6 +277,8 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
       contributors,
       watchers,
     } = details
+
+    setOutput('actionName', action)
 
     const isGitHubVerified = owner.type === 'Organization' && owner.isVerified === true
     setOutput('isGitHubVerified', isGitHubVerified)

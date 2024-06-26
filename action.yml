@@ -13,6 +13,8 @@ inputs:
     description: 'Path to the GitHub Actions allow list YML within the repository'
     default: 'github-actions-allow-list.yml'
 outputs:
+  actionName:
+    description: 'Action name/path'
   isGitHubVerified:
     description: 'Is the GitHub Actions organization verified'
   isSecurityPolicyEnabled:
