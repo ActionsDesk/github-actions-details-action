@@ -9,7 +9,7 @@ import {context} from '@actions/github'
     const searchToken = getInput('search_token', {required: true})
     const token = getInput('token', {required: true})
     const allowList = getInput('allow_list_path')
-    const reportType = getInput('report_type')
+    const reportType = getInput('report_type', {required: true})
     const workspace = process.env.GITHUB_WORKSPACE
 
     const allowListPath = join(workspace, allowList)
