@@ -9,6 +9,10 @@ inputs:
     description: 'GITHUB_TOKEN'
     required: true
     default: ${{ github.token }}
+  report_type:
+    description: 'comment, output, both'
+    required: true
+    default: 'comment'
   allow_list_path:
     description: 'Path to the GitHub Actions allow list YML within the repository'
     default: 'github-actions-allow-list.yml'
