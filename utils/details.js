@@ -60,9 +60,10 @@ class ActionDetails {
    * @param {string} options.token GitHub Token
    * @param {string} options.searchToken GitHub Personal Access Token (PAT)
    * @param {string} options.allowList Path to the GitHub Actions allow list YML within the repository
+   * @param {string} options.reportType Type of report to produce: comment, output, both
    * @param {import('@actions/github').context} options.context
    */
-  constructor({token, searchToken, allowList, context}) {
+  constructor({token, searchToken, allowList, reportType, context}) {
     if (!token) {
       throw new Error('`token` is required')
     }
@@ -74,6 +75,7 @@ class ActionDetails {
     this.search = getOctokit(searchToken)
 
     this.allowList = allowList
+    this.reportType = reportType
     this.context = context
   }
 
@@ -238,9 +240,14 @@ Please make sure this is intended by providing a business reason via comment bel
           contributors: contributors.length,
         }
 
-        this.addOutputs(details)
-        const md = this.getMarkdown(details)
-        this.postReviewComment(md, position)
+        if (this.reportType === 'both' || this.reportType === 'output') {
+          this.addOutputs(details)
+        }
+
+        if (this.reportType === 'both' || this.reportType === 'comment') {
+          const md = this.getMarkdown(details)
+          this.postReviewComment(md, position)
+        }
       } catch (error) {
         this.postReviewComment(
           `## :stop_sign: \`${owner}/${repo}\` is not a known GitHub Action
@@ -261,6 +268,7 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
    */
   addOutputs(details) {
     const {
+      action,
       actionRequestedVersion,
       url,
       description,
@@ -276,6 +284,8 @@ Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
       contributors,
       watchers,
     } = details
+
+    setOutput('actionName', action)
 
     const isGitHubVerified = owner.type === 'Organization' && owner.isVerified === true
     setOutput('isGitHubVerified', isGitHubVerified)
