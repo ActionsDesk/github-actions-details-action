@@ -257,6 +257,7 @@ Please make sure this is intended by providing a business reason via comment bel
 Please delete \`${owner}/${repo}\` from \`${this.allowList}\`!`,
           position,
         )
+        throw error
       }
     }
   }

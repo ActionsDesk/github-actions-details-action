@@ -1,4 +1,4 @@
-import {getInput, setFailed} from '@actions/core'
+import {getInput, setFailed, error as logerror} from '@actions/core'
 import {join, parse} from 'path'
 import ActionDetails from './utils/details'
 import {context} from '@actions/github'
@@ -24,6 +24,7 @@ import {context} from '@actions/github'
     await ad.getDetails()
     // await ad.postComment()
   } catch (error) {
+    logerror(`Error: ${error}.`)
     setFailed(error.message)
   }
 })()
