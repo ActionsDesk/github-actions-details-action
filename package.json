@@ -40,11 +40,11 @@
   },
   "devDependencies": {
     "@github/prettier-config": "^0.0.6",
-    "@vercel/ncc": "^0.38.1",
-    "eslint": "^8.57.0",
+    "@vercel/ncc": "^0.38.2",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-github": "^5.0.1",
-    "husky": "^9.1.5",
+    "eslint-plugin-github": "^5.0.2",
+    "husky": "^9.1.6",
     "rimraf": "^6.0.1"
   },
   "husky": {
